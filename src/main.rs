@@ -23,7 +23,7 @@ fn main() {
 
     let mut combined: Vec<_> = colors.into_iter().collect();
 
-    combined.sort_by(|a,b| b.1.cmp(&a.1));
+    combined.sort_unstable_by(|a,b| b.1.cmp(&a.1));
 
     let max = if combined.len() < 15 { combined.len() } else { 15 };
     
