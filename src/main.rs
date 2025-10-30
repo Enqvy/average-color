@@ -9,7 +9,19 @@ fn main() {
         return;
     }
 
-    let img = image::open(&args[1]).unwrap();
+    let mut img = image::open(&args[1]).unwrap();
+    
+    let max_dim = 3840;
+    if img.width() > max_dim || img.height() > max_dim {
+        let ratio = if img.width() > img.height() {
+            max_dim as f32 / img.width() as f32
+        } else {
+            max_dim as f32 / img.height() as f32
+        };
+        let new_w = (img.width() as f32 * ratio) as u32;
+        let new_h = (img.height() as f32 * ratio) as u32;
+        img = img.resize(new_w, new_h, image::imageops::FilterType::Nearest);
+    }
     
     let mut colors: BTreeMap<(u8,u8,u8), u32> = BTreeMap::new();
     
