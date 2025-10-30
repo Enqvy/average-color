@@ -28,6 +28,3 @@ it will show the top 15 most used colors in hex format
 #000000 - 8234 pixels
 #ff5733 - 3421 pixels
 ```
-
-thats it
-
