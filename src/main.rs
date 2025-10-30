@@ -17,25 +17,11 @@ fn main() {
         if pixel[3] < 95 {
             continue;
         }
-        let rgb = (pixel[0], pixel[1], pixel[2]);
-        *colors.entry(rgb).or_insert(0) += 1;
+        let bucket = get_bucket((pixel[0], pixel[1], pixel[2]));
+        *colors.entry(bucket).or_insert(0) += 1;
     }
 
-    let mut combined: Vec<((u8,u8,u8), u32)> = vec![];
-    
-    for (color, count) in colors {
-        let mut found = false;
-        for i in 0..combined.len() {
-            if close_enough(color, combined[i].0) {
-                combined[i].1 += count;
-                found = true;
-                break;
-            }
-        }
-        if !found {
-            combined.push((color, count));
-        }
-    }
+    let mut combined: Vec<_> = colors.into_iter().collect();
 
     combined.sort_by(|a,b| b.1.cmp(&a.1));
 
@@ -47,9 +33,6 @@ fn main() {
     }
 }
 
-fn close_enough(c1: (u8,u8,u8), c2: (u8,u8,u8)) -> bool {
-    let dr = (c1.0 as i32 - c2.0 as i32).abs();
-    let dg = (c1.1 as i32 - c2.1 as i32).abs();
-    let db = (c1.2 as i32 - c2.2 as i32).abs();
-    dr < 5 && dg < 5 && db < 5
+fn get_bucket(c: (u8,u8,u8)) -> (u8,u8,u8) {
+    ((c.0 / 5) * 5, (c.1 / 5) * 5, (c.2 / 5) * 5)
 }
