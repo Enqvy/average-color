@@ -14,6 +14,9 @@ fn main() {
     let mut colors: HashMap<(u8,u8,u8), u32> = HashMap::new();
     
     for (_,_, pixel) in img.pixels() {
+        if pixel[3] < 95 {
+            continue;
+        }
         let rgb = (pixel[0], pixel[1], pixel[2]);
         *colors.entry(rgb).or_insert(0) += 1;
     }
