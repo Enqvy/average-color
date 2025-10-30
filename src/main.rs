@@ -1,5 +1,5 @@
 use image::GenericImageView;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use std::env;
 
 fn main() {
@@ -11,7 +11,7 @@ fn main() {
 
     let img = image::open(&args[1]).unwrap();
     
-    let mut colors: HashMap<(u8,u8,u8), u32> = HashMap::new();
+    let mut colors: BTreeMap<(u8,u8,u8), u32> = BTreeMap::new();
     
     for (_,_, pixel) in img.pixels() {
         if pixel[3] < 95 {
